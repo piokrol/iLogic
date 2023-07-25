@@ -1,0 +1,44 @@
+AddReference "System.Data"
+AddReference "System.Core"
+AddReference "System.Xml"
+
+Imports System.Data.SqlClient
+Imports System.Data
+Imports System.Xml
+Sub Main()
+    ' Tworzenie ciągu połączeniowego do bazy danych SQL Server.
+    Dim connectionString As String = "Data Source=CBR-PKR;Initial Catalog=iLogic;Integrated Security=SSPI;"
+    
+    ' Zapytanie SQL do pobrania wszystkich danych z tabeli "tableTop".
+    Dim query As String = "SELECT * FROM tableTop"
+
+    ' Tworzenie nowego obiektu DataSet, który posłuży do przechowywania danych z bazy danych.
+    Dim ds As New DataSet()
+
+    ' Utworzenie nowego obiektu SqlConnection, który będzie używany do połączenia się z bazą danych.
+    Dim cnn As SqlConnection = New SqlConnection(connectionString)
+
+    ' Otwarcie połączenia z bazą danych.
+    cnn.Open()
+
+    ' Utworzenie nowego obiektu SqlCommand, który reprezentuje zapytanie SQL.
+    Dim cmd As New SqlCommand(query, cnn)
+
+    ' Utworzenie nowego obiektu SqlDataAdapter, który służy do wypełnienia DataSet danymi z wyniku zapytania.
+    Dim da As New SqlDataAdapter(cmd)
+
+    ' Wypełnienie DataSet danymi z wyniku zapytania SQL, zapisując wynik jako tabelę "tableTop".
+    da.Fill(ds, "tableTop")
+
+    ' Zamknięcie połączenia z bazą danych po zakończeniu operacji na bazie danych.
+    cnn.Close()
+
+    ' Pobranie referencji do tabeli "tableTop" z DataSet.
+    Dim t1 As DataTable = ds.Tables("tableTop")
+
+    ' Przetwarzanie każdego wiersza tabeli "tableTop" i wyświetlenie danych w MessageBox.
+    Dim row As DataRow
+    For Each row In t1.Rows
+        MsgBox("ID: " & row("id") & ", Name: " & row("name") & ", Description: " & row("description") & ", Order Code: " & row("orderCode") & ", Delivery Time: " & row("deliveryTime"))
+    Next
+End Sub
