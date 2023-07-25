@@ -8,7 +8,7 @@ Imports System.Xml
 Sub Main()
     ' Tworzenie ciągu połączeniowego do bazy danych SQL Server.
     Dim connectionString As String = "Data Source=CBR-PKR;Initial Catalog=iLogic;Integrated Security=SSPI;"
-    
+
     ' Zapytanie SQL do pobrania wszystkich danych z tabeli "tableTop".
     Dim query As String = "SELECT * FROM tableTop"
 
@@ -40,5 +40,19 @@ Sub Main()
     Dim row As DataRow
     For Each row In t1.Rows
         MsgBox("ID: " & row("id") & ", Name: " & row("name") & ", Description: " & row("description") & ", Order Code: " & row("orderCode") & ", Delivery Time: " & row("deliveryTime"))
+
+        ' Wywołanie funkcji ParseAndDisplayOrderCode, która podzieli pole "orderCode" na części i wyświetli dane do konsoli.
+        ParseAndDisplayOrderCode(row("orderCode"))
     Next
 End Sub
+
+Sub ParseAndDisplayOrderCode(orderCode As String)
+    ' Podzielenie wartości pola "orderCode" na części, oddzielone myślnikami.
+    Dim parts As String() = orderCode.Split("-")
+
+    ' Wyświetlenie każdej części.
+    For Each part As String In parts
+        MsgBox("Order Code Part: " & part)
+    Next
+End Sub
+
