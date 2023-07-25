@@ -54,5 +54,62 @@ Sub ParseAndDisplayOrderCode(orderCode As String)
     For Each part As String In parts
         MsgBox("Order Code Part: " & part)
     Next
+
+    ' Sprawdzenie, czy user parameter o podanej nazwie już istnieje.
+    Dim oMyParameter As UserParameters = ThisApplication.ActiveDocument.ComponentDefinition.Parameters.UserParameters
+
+    ' Znalezienie i zmiana wartości user parametera o nazwie "height_user" jeśli istnieje.
+    For Each param As UserParameter In oMyParameter
+        If param.Name = "height_user" Then
+            ' Konwersja wartości na typ Double z uwzględnieniem precyzji i zmiana wartości user parametera.
+            Dim heightValue As Double = CDbl(parts(1)) / 10 ' Podzielenie przez 10 aby przenieść jedno miejsce w prawo.
+            param.Value = Math.Round(heightValue, 2) ' Zaokrąglenie do 2 miejsc po przecinku.
+            Exit For
+        End If
+    Next
+
+    ' Znalezienie i zmiana wartości user parametera o nazwie "width_user" jeśli istnieje.
+    For Each param As UserParameter In oMyParameter
+        If param.Name = "width_user" Then
+            ' Konwersja wartości na typ Double z uwzględnieniem precyzji i zmiana wartości user parametera.
+            Dim widthValue As Double = CDbl(parts(2)) / 10 ' Pominięcie pierwszego znaku i podzielenie przez 10 aby przenieść jedno miejsce w prawo.
+            param.Value = Math.Round(widthValue, 2) ' Zaokrąglenie do 2 miejsc po przecinku.
+            Exit For
+        End If
+    Next
+
+    ' Znalezienie i zmiana wartości user parametera o nazwie "thickness_user" jeśli istnieje.
+    For Each param As UserParameter In oMyParameter
+        If param.Name = "thickness_user" Then
+            ' Konwersja wartości na typ Double z uwzględnieniem precyzji i zmiana wartości user parametera.
+            Dim thicknessValue As Double = CDbl(parts(3)) / 10 ' Pominięcie pierwszego znaku i podzielenie przez 10 aby przenieść jedno miejsce w prawo.
+            param.Value = Math.Round(thicknessValue, 2) ' Zaokrąglenie do 2 miejsc po przecinku.
+            Exit For
+        End If
+    Next
+
+    ' Znalezienie i zmiana wartości user parametera o nazwie "radius_user" jeśli istnieje.
+    For Each param As UserParameter In oMyParameter
+        If param.Name = "radius_user" Then
+            ' Konwersja wartości na typ Double z uwzględnieniem precyzji i zmiana wartości user parametera.
+            Dim radiusValue As Double = CDbl(parts(4).Substring(1)) / 10 ' Pominięcie pierwszego znaku i podzielenie przez 10 aby przenieść jedno miejsce w prawo.
+            param.Value = Math.Round(radiusValue, 2) ' Zaokrąglenie do 2 miejsc po przecinku.
+            Exit For
+        End If
+    Next
+
+' Znalezienie i zmiana wartości user parametera o nazwie "chamfer_user" jeśli istnieje.
+For Each param As UserParameter In oMyParameter
+    If param.Name = "chamfer_user" Then
+        ' Konwersja wartości na typ Double z uwzględnieniem precyzji i zmiana wartości user parametera.
+        Dim chamferValue As Double = CDbl(parts(5).Substring(2)) / 10 ' Pominięcie dwóch pierwszych znaków i podzielenie przez 10 aby przenieść jedno miejsce w prawo.
+        param.Value = Math.Round(chamferValue, 2) ' Zaokrąglenie do 2 miejsc po przecinku.
+        Exit For
+    End If
+    Next
+	
+InventorVb.DocumentUpdate()
+
 End Sub
+
 
