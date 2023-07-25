@@ -43,6 +43,22 @@ Sub Main()
 
         ' Wywołanie funkcji ParseAndDisplayOrderCode, która podzieli pole "orderCode" na części i wyświetli dane do konsoli.
         ParseAndDisplayOrderCode(row("orderCode"))
+		
+        ' Zapisanie zmodyfikowanego pliku .ipt na dysku.
+        Dim inventorApp As Inventor.Application = ThisApplication
+        Dim oDoc As PartDocument = inventorApp.ActiveDocument
+		
+		Dim outputFolder As String="C:\Users\pkrol\Desktop\Szkoleniowe\webinary\output"
+
+        ' Utworzenie nazwy pliku .ipt na podstawie wartości "orderCode".
+        Dim orderCode As String = row("orderCode")
+        Dim fileName As String = orderCode & ".ipt"
+
+        ' Utworzenie pełnej ścieżki pliku.
+        Dim filePath As String = outputFolder+"/"+fileName
+
+        ' Zapisanie pliku .ipt na dysku.
+        oDoc.SaveAs(filePath, False)
     Next
 End Sub
 
@@ -109,7 +125,7 @@ For Each param As UserParameter In oMyParameter
     Next
 	
 InventorVb.DocumentUpdate()
-
+	
 End Sub
 
 
